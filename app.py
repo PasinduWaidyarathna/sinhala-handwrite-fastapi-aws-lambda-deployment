@@ -1,3 +1,4 @@
+import io
 import os
 import re
 import string
@@ -19,12 +20,12 @@ IMG_SIZE = 125
 
 # Image preprocessing
 async def preprocess_image(file: UploadFile) -> np.ndarray:
+    contents = await file.read()
     try:
-        img = Image.open(await file.read()).convert('L').resize((IMG_SIZE, IMG_SIZE))
+        img = Image.open(io.BytesIO(contents)).convert('L').resize((IMG_SIZE, IMG_SIZE))
     except Exception:
         raise HTTPException(status_code=400, detail='Invalid image file')
     arr = np.array(img, dtype=np.float32)
-    # add batch and channel dims
     arr = arr.reshape((1, IMG_SIZE, IMG_SIZE, 1)) / 255.0
     return arr
 
