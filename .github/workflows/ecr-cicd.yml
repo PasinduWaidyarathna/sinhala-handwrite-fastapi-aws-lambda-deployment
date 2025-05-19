@@ -2,9 +2,9 @@ name: CICD pipeline with ECR
 run-name: Build and Push FastAPI Lambda Image
 
 on:
-  push:
-    branches:
-      - main
+#  push:
+#    branches:
+#      - main
   workflow_dispatch:
 
 env:
