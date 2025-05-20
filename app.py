@@ -8,10 +8,22 @@ from fastapi.responses import JSONResponse
 from mangum import Mangum
 from tensorflow.keras.models import load_model
 from PIL import Image
+from fastapi.middleware.cors import CORSMiddleware
 
 # Initialize FastAPI and handler
 app = FastAPI()
 handler = Mangum(app)
+
+# allow your frontend origin (or "*" to allow all)
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,           # you can use ["*"] in development
+    allow_credentials=True,
+    allow_methods=["*"],             # allow POST, GET, OPTIONS, etc.
+    allow_headers=["*"],             # allow Content-Type, Authorization, etc.
+)
 
 # Load Keras model
 #MODEL_PATH = 'models/research_exp01.keras'
